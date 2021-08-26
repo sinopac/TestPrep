@@ -1,0 +1,8 @@
+# ignore a single file
+
+# ignore an entire directory
+/.vscode/
+/bin/
+/obj/
+
+# ignore a file type
