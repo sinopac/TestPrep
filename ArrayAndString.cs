@@ -11,18 +11,18 @@ namespace MyTestPrep
         public static bool IsUniqueChars(string s)
         {
             // ASCII contains 128 char.
-            if(s.Length > 128)
+            if (s.Length > 128)
                 return false;
 
             var asciiSet = new bool[128];
 
-            foreach(char c in s)
+            foreach (char c in s)
             {
                 int dec = (int)c;
 
-                if(asciiSet[dec])
+                if (asciiSet[dec])
                     return false;
-            
+
                 asciiSet[dec] = true;
             }
 
@@ -31,7 +31,7 @@ namespace MyTestPrep
 
         public static bool IsUniqueChars_Linq(string s)
         {
-            if(s.Length > 128)
+            if (s.Length > 128)
                 return false;
 
             var duplicateChars = s.GroupBy(x => x).SelectMany(group => group.Skip(1));
@@ -41,7 +41,7 @@ namespace MyTestPrep
         /// If two strings are permutations, then we know they have the same characters, but in different orders.
         public static bool IsPermutation(string s1, string s2)
         {
-            if(s1.Length != s2.Length)
+            if (s1.Length != s2.Length)
                 return false;
 
             var s1CharArray = s1.ToCharArray();
@@ -55,7 +55,7 @@ namespace MyTestPrep
 
         public static bool IsPermutation_Linq_Except(string s1, string s2)
         {
-            if(s1.Length != s2.Length)
+            if (s1.Length != s2.Length)
                 return false;
 
             var diff = s1.Except(s2);
@@ -65,7 +65,7 @@ namespace MyTestPrep
 
         public static bool IsPermutation_Linq_SequenceEqual(string s1, string s2)
         {
-            if(s1.Length != s2.Length)
+            if (s1.Length != s2.Length)
                 return false;
 
             var s1CharArray = s1.ToCharArray();
@@ -90,9 +90,9 @@ namespace MyTestPrep
             s = s.Trim();
             var strBuilder = new StringBuilder();
 
-            foreach(var c in s)
+            foreach (var c in s)
             {
-                if(Char.IsWhiteSpace(c))
+                if (Char.IsWhiteSpace(c))
                 {
                     strBuilder.Append("%20");
                 }
@@ -107,7 +107,7 @@ namespace MyTestPrep
         public static string Urlify_Regex(string s)
         {
             s = s.Trim();
-            return  Regex.Replace(s, @"\s", "%20");
+            return Regex.Replace(s, @"\s", "%20");
         }
 
         /// A palindrome is a string that is the same forwards and backwards.
@@ -124,7 +124,7 @@ namespace MyTestPrep
         public static bool OneWay(string s1, string s2)
         {
             var commons = s1.Intersect(s2).Count();
-            return commons == s1.Length - 1 || commons == s2.Length -1;
+            return commons == s1.Length - 1 || commons == s2.Length - 1;
         }
 
         /// string compression using the counts of repeated characters.
@@ -132,7 +132,7 @@ namespace MyTestPrep
         {
             var compressStringLength = GetCompressStringLength(s);
             Console.WriteLine($"Length: {compressStringLength}");
-            if(compressStringLength >= s.Length)
+            if (compressStringLength >= s.Length)
                 return s;
 
             var sChars = s.ToCharArray();
@@ -142,7 +142,7 @@ namespace MyTestPrep
 
             for (var i = 1; i < sChars.Length; i++)
             {
-                if(sChars[i] != sChars[i-1])
+                if (sChars[i] != sChars[i - 1])
                 {
                     strBuilder.Append(counter);
                     strBuilder.Append(sChars[i]);
@@ -162,17 +162,17 @@ namespace MyTestPrep
 
         private static int GetCompressStringLength(string s)
         {
-            if(string.IsNullOrEmpty(s))
+            if (string.IsNullOrEmpty(s))
                 return 0;
 
             int counter = 1;
-            for(int i = 1; i < s.Length; i++)
+            for (int i = 1; i < s.Length; i++)
             {
-                if(s[i] != s[i-1])
+                if (s[i] != s[i - 1])
                     counter++;
             }
 
-            return counter*2;
+            return counter * 2;
         }
 
         /// rotate the matrix by 90 degrees
@@ -183,12 +183,12 @@ namespace MyTestPrep
             var m = matrix.GetLength(1);
             var newMatrix = new int[m, n];
 
-            for(int i = 0; i < m; i++)
+            for (int i = 0; i < m; i++)
             {
-                for(int j = 0; j < n; j++)
+                for (int j = 0; j < n; j++)
                 {
-                    newMatrix[i, j] = matrix[n-j-1, i];
-                    Console.Write(newMatrix[i,j] + "\t");
+                    newMatrix[i, j] = matrix[n - j - 1, i];
+                    Console.Write(newMatrix[i, j] + "\t");
                 }
                 Console.WriteLine();
             }
@@ -207,7 +207,7 @@ namespace MyTestPrep
             {
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    if (matrix[i,j] == 0)
+                    if (matrix[i, j] == 0)
                     {
                         rowsWithZero.Add(i);
                         columnsWithZero.Add(j);
@@ -222,10 +222,10 @@ namespace MyTestPrep
                 {
                     if (rowsWithZero.Contains(i) || columnsWithZero.Contains(j))
                     {
-                        matrix[i,j] = 0;
+                        matrix[i, j] = 0;
                     }
 
-                    Console.Write(matrix[i,j] + "\t");
+                    Console.Write(matrix[i, j] + "\t");
                 }
                 Console.WriteLine();
             }
@@ -235,6 +235,32 @@ namespace MyTestPrep
         public static bool StringRotation(string s1, string s2)
         {
             return (s1 + s1).Contains(s2);
+        }
+
+        /// https://leetcode.com/problems/longest-substring-without-repeating-characters/
+        public static int LengthOfLongestSubstring(string s)
+        {
+
+            var result = 0;
+
+            for (var i = 0; i < s.Length; i++)
+            {
+                var longestSub = new List<char>();
+                longestSub.Add(s[i]);
+
+                for (var j = i + 1; j < s.Length; j++)
+                {
+                    if (longestSub.Contains(s[j]))
+                        break;
+                    else
+                        longestSub.Add(s[j]);
+                }
+
+                if (longestSub.Count > result)
+                    result = longestSub.Count;
+            }
+
+            return result;
         }
     }
 }

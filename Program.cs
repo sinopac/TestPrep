@@ -28,14 +28,18 @@ namespace MyTestPrep
 
             // var testResult7 = ArrayAndString.StringRotation("waterbottle", "erbottlewat");
             // Console.WriteLine($"Result: {testResult7}");
-            
-            var matrix_rotate = new int[4, 4] {{ 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, {13, 14, 15, 16 }};
-            ArrayAndString.RotateMatrix(matrix_rotate);
+
+            // var matrix_rotate = new int[4, 4] {{ 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, {13, 14, 15, 16 }};
+            // ArrayAndString.RotateMatrix(matrix_rotate);
 
             // var matrix_zero = new int[4, 3] { { 1, 2, 3 }, { 4, 5, 6}, { 7, 0, 9 }, { 10, 11, 12 } };
             // ArrayAndString.ZeroMatrix(matrix_zero);
 
-            Console.WriteLine("Program end.");        
+            // Numbers.ArmstrongNumber();
+
+            ArrayAndString.LengthOfLongestSubstring("pwwkew");
+
+            Console.WriteLine("Program end.");
         }
     }
 }
