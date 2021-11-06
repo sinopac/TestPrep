@@ -262,5 +262,125 @@ namespace MyTestPrep
 
             return result;
         }
+
+        public static void Rotate(int[] nums, int k)
+        {
+            var l1 = nums.Take(nums.Length - k);
+            var l2 = nums.Skip(nums.Length - k).ToList();
+
+            l2.AddRange(l1);
+            nums = l2.ToArray();
+        }
+
+        public static string LongestCommonSubstring(string s1, string s2)
+        {
+            var longestSubString = string.Empty;
+            var commons = new List<Tuple<int, int, char>>();
+
+            for (int i = 0; i < s1.Length; i++)
+            {
+                for (int j = 0; j < s2.Length; j++)
+                {
+                    if (s1[i] == s2[j])
+                    {
+                        commons.Add(new Tuple<int, int, char>(i, j, s1[i]));
+                    }
+                }
+            }
+
+            foreach (var common in commons)
+            {
+                var substringList = new List<Tuple<int, int, char>> { common };
+                var next = commons.FirstOrDefault(x => x.Item1 == common.Item1 + 1 && x.Item2 == common.Item2 + 1);
+
+                while (next != null)
+                {
+                    substringList.Add(next);
+                    next = commons.FirstOrDefault(x => x.Item1 == next.Item1 + 1 && x.Item2 == next.Item2 + 1);
+                }
+
+                if (substringList.Count > longestSubString.Length)
+                {
+                    var commonCahrs = substringList.Select(x => x.Item3).ToArray();
+                    longestSubString = new string(commonCahrs);
+                }
+            }
+
+            return longestSubString;
+        }
+
+        public static void Blocks(int[,] cells)
+        {
+            var block = new List<Tuple<int, int>>();
+
+        }
+
+        public static int StrStr(string haystack, string needle)
+        {
+            if (haystack == needle)
+                return 0;
+
+            for (int i = 0; i <= haystack.Length - needle.Length; i++)
+            {
+                var match = true;
+                for (int j = 0; j < needle.Length; j++)
+                {
+                    if (haystack[i + j] != needle[j])
+                    {
+                        match = false;
+                        break;
+                    }
+                }
+
+                if (match)
+                    return i;
+            }
+
+            return -1;
+        }
+
+        public static string ShiftingLetters(string s, int[] shifts)
+        {
+            List<char> shifted = s.ToList();
+            int[] actualShift = new int[shifts.Length];
+
+            for (int i = 0; i < actualShift.Length; i++)
+            {
+                actualShift[i] = GetShiftCount(i, shifts);
+            }
+
+            for (int j = 0; j < actualShift.Length; j++)
+            {
+                shifted[j] = Shift(shifted[j], actualShift[j]);
+            }
+
+            return new string(shifted.ToArray());
+        }
+
+        private static int GetShiftCount(int index, int[] shifts)
+        {
+            int count = 0;
+            for (int i = index; i < shifts.Length; i++)
+            {
+                count += shifts[i] % 26;
+            }
+
+            return count % 26;
+        }
+
+        private static char Shift(char c, int i)
+        {
+            int min = 97;
+            int max = 122;
+
+            var newDec = (int)c + i;
+
+            while (newDec > max)
+            {
+                newDec = newDec - max + min - 1;
+            }
+
+            return (char)newDec;
+        }
     }
 }

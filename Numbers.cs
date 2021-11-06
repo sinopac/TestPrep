@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 
@@ -51,6 +52,218 @@ namespace MyTestPrep
             }
 
             return numbers;
+        }
+
+        public static int FindMaxConsecutiveOnes(int[] nums)
+        {
+            int maxCount = 0;
+            int count = 0;
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] == 1)
+                {
+                    count++;
+                }
+                else
+                {
+                    if (count > maxCount)
+                        maxCount = count;
+
+                    count = 0;
+                }
+            }
+
+            if (count > maxCount)
+                maxCount = count;
+
+            return maxCount;
+        }
+
+        public static int[] Merge(int[] nums1, int m, int[] nums2, int n)
+        {
+            var list = new List<int>();
+
+
+
+            for (var i = 0; i < m; i++)
+            {
+                list.Add(nums1[i]);
+            }
+
+            for (var j = 0; j < n; j++)
+            {
+                list.Add(nums2[j]);
+            }
+
+            var x = list.OrderBy(x => x).ToArray();
+
+            return x;
+        }
+
+        /// Given coins of value 1, 3, and 6 and a sum, what is the minimum number of coins needed to reach the sum?
+        public static int SumCombination(int[] coins, int v)
+        {
+            if (v == 0)
+                return 0;
+
+            // Initialize result
+            int res = int.MaxValue;
+
+            // Try every coin that has smaller value than V
+            for (int i = 0; i < coins.Length; i++)
+            {
+                if (coins[i] <= v)
+                {
+                    int sub_res = SumCombination(coins, v - coins[i]);
+
+                    // Check for INT_MAX to  avoid overflow and see if result can minimized
+                    if (sub_res != int.MaxValue && sub_res + 1 < res)
+                        res = sub_res + 1;
+                }
+            }
+
+            return res;
+        }
+
+        public static int[] TwoSum(int[] nums, int target)
+        {
+            var numSet = new List<Tuple<int, int>>();
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                var solution = numSet.FirstOrDefault(x => x.Item2 == target - nums[i]);
+
+                if (solution != null)
+                {
+                    return new[] { solution.Item1, i };
+                }
+
+                numSet.Add(new Tuple<int, int>(i, nums[i]));
+            }
+
+            return new int[] { };
+        }
+
+        public static IList<IList<int>> ThreeSum(int[] nums)
+        {
+            IList<IList<int>> result = new List<IList<int>>();
+            var numsList = nums.ToList();
+
+            for (int i = 0; i < numsList.Count; i++)
+            {
+                numsList.Remove(numsList[i]);
+                var xx = NewTwoSum(numsList, -numsList[i]);
+
+                foreach (var x in xx)
+                {
+                    x.Add(numsList[i]);
+                    result.Add(x);
+                }
+            }
+
+            return result;
+        }
+
+        public static List<List<int>> NewTwoSum(List<int> nums, int sum)
+        {
+            List<List<int>> result = new List<List<int>>();
+            List<Tuple<int, int>> matchs = new List<Tuple<int, int>>();
+
+            for (int i = 0; i < nums.Count; i++)
+            {
+                var ms = matchs.Where(x => x.Item2 == sum - 1);
+                if (ms.Any())
+                {
+                    foreach (var m in ms)
+                    {
+                        result.Add(new List<int> { i, m.Item2 });
+                    }
+                }
+                else
+                {
+                    matchs.Add(new Tuple<int, int>(i, nums[i]));
+                }
+            }
+            return result;
+        }
+
+        public static void Rotate(int[] nums, int k)
+        {
+            var newNums = new int[nums.Length];
+            k = k % nums.Length;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                int idx = i + k;
+                if (idx >= nums.Length)
+                {
+                    idx = idx - nums.Length;
+                }
+
+                newNums[idx] = nums[i];
+            }
+
+            nums = newNums;
+        }
+
+        public static int RemoveElement(int[] nums, int val)
+        {
+            int i = 0;
+            for (int j = 0; j < nums.Length; j++)
+            {
+                if (nums[j] != val)
+                {
+                    nums[i] = nums[j];
+                    i++;
+                }
+            }
+            return i;
+        }
+
+        public static int RemoveDuplicates(int[] nums)
+        {
+            int i = 0;
+            bool ii = false;
+
+            for (int j = 1; j < nums.Length; j++)
+            {
+                if (nums[i] != nums[j])
+                {
+                    i++;
+                    nums[i] = nums[j];
+                    ii = false;
+                }
+                else if (nums[i] == nums[j] && ii == false)
+                {
+                    i++;
+                    nums[i] = nums[j];
+                    ii = true;
+                }
+            }
+
+            return i + 1;
+        }
+
+        public static int BinarySearch(int[] nums, int target)
+        {
+            int left = 0;
+            int right = nums.Length - 1;
+            int mid;
+
+            while (right > left)
+            {
+                mid = (right + left) / 2;
+                if (target == nums[mid])
+                    return mid;
+
+                if (target > nums[mid])
+                    left = mid;
+
+                if (target < nums[mid])
+                    right = mid;
+            }
+
+            return -1;
         }
     }
 }

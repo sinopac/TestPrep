@@ -35,9 +35,19 @@ namespace MyTestPrep
             // var matrix_zero = new int[4, 3] { { 1, 2, 3 }, { 4, 5, 6}, { 7, 0, 9 }, { 10, 11, 12 } };
             // ArrayAndString.ZeroMatrix(matrix_zero);
 
-            // Numbers.ArmstrongNumber();
+            // Numbers.Rotate(new[] { 1, 2, 3, 4, 5, 6, 7 }, 5);
 
-            ArrayAndString.LengthOfLongestSubstring("pwwkew");
+            // Numbers.Merge(new[] { 1, 2, 3, 0, 0, 0 }, 3, new[] { 2, 5, 6 }, 3);
+
+            // ArrayAndString.Rotate(new[] { 1, 2, 3, 4, 5, 6, 7 }, 3);
+
+            // var result = ArrayAndString.ShiftingLetters("mkgfzkkuxownxvfvxasy", new[] { 505870226, 437526072, 266740649, 224336793, 532917782, 311122363, 567754492, 595798950, 81520022, 684110326, 137742843, 275267355, 856903962, 148291585, 919054234, 467541837, 622939912, 116899933, 983296461, 536563513 });
+
+            // ArrayAndString.Blocks(new int[9,2] {{0, 4}, {1, 0}, {1, 1}, {1, 2}, {2, 2}, {3, 0}, {3, 3}, {3, 4}, {4, 0}});
+
+            //  ArrayAndString.StrStr("hello", "ll");
+
+            Numbers.BinarySearch(new[] { -1, 0, 3, 5, 9, 12 }, 9);
 
             Console.WriteLine("Program end.");
         }
