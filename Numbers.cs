@@ -265,5 +265,41 @@ namespace MyTestPrep
 
             return -1;
         }
+
+        public static int[] MaxSlidingWindow(int[] nums, int k)
+        {
+            var ans = new int[nums.Length - k + 1];
+            var window = new List<int>();
+
+            for (int i = 0; i < k; i++)
+            {
+                window.Add(nums[i]);
+            }
+
+            ans[0] = window.Max();
+
+            for (int i = 0; i < nums.Length - k; i++)
+            {
+                window.Remove(window[0]);
+                window.Add(nums[k + i]);
+                ans[i + 1] = window.Max();
+            }
+
+            return ans;
+        }
+
+        public static void ccc(int n)
+        {
+            var c = new char[n - 1];
+            Array.Fill(c, '9');
+            int max = int.Parse(new string(c));
+            int min = (int)Math.Pow(10, n - 2);
+
+            for (int i = min; i <= max; i++)
+            {
+                Console.WriteLine(i * 10);
+                Console.WriteLine(i * 10 + 5);
+            }
+        }
     }
 }

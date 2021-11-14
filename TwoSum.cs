@@ -1,16 +1,18 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace MyTestPrep
 {
-    /// <summary>
-    /// Array, HashTable
-    /// Input: nums = [2,7,11,15], target = 9
-    /// Output: [0,1]
-    /// </summary>
-    public static class TwoSum
+    public static class TwoSums
     {
-        public static int[] TwoSum_1(int[] nums, int target)
+        /// <summary>
+        /// Array, HashTable
+        /// Input: nums = [2,7,11,15], target = 9
+        /// Output: [0,1]
+        /// https://leetcode.com/problems/two-sum/
+        /// </summary>
+        public static int[] TwoSum(int[] nums, int target)
         {
             var matchTable = new Dictionary<int, int>();
 
@@ -29,24 +31,36 @@ namespace MyTestPrep
             return new int[0];
         }
 
-        public static int[] TwoSum_2(int[] nums, int target)
+        /// <summary>
+        /// Array, HashTable
+        /// Input: nums = [34,23,1,24,75,33,54,8], k = 60
+        /// Output: 58
+        /// https://leetcode.com/problems/two-sum-less-than-k/
+        /// </summary>
+        public static int TwoSumLessThanK(int[] nums, int k)
         {
-            var matchNums = new Dictionary<int, int>();
+            Array.Sort(nums);
 
-            for (int i = 0; i < nums.Length; i++)
+            var maxSum = -1;
+            var left = 0;
+            var right = nums.Length - 1;
+
+            while (left < right)
             {
-                var matchNum = target - nums[i];
-                var matchs = matchNums.Where(x => x.Value == matchNum);
+                var sum = nums[left] + nums[right];
 
-                if (matchs.Any())
+                if (sum < k)
                 {
-                    return new[] { matchs.First().Key, i };
+                    maxSum = Math.Max(maxSum, sum);
+                    left++;
                 }
-
-                matchNums.Add(i, nums[i]);
+                else
+                {
+                    right--;
+                }
             }
 
-            return null;
+            return maxSum;
         }
     }
 }

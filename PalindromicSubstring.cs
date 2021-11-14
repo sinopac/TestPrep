@@ -11,32 +11,34 @@ namespace MyTestPrep
             if (s.Length == 0 || s.Length == 1)
                 return s;
 
-            int a = s.Length - 1;
-            int r, l;
-            int spos = 0, slen = 0;
+            int right, left;
+            int p_index = 0, p_length = 0;
 
-            for (int i = 1; i < 3; i++)
+            for (int i = 1; i <= 2; i++)
             {
-                for (int ii = 0; ii <= a - i; ii++)
+                for (int j = 0; j < s.Length - i; j++)
                 {
-                    l = ii;
-                    r = ii + i;
+                    left = j;
+                    right = j + i;
 
-                    while (l >= 0 && r <= a && s[l] == s[r])
+                    var x = s[left];
+                    var y = s[right];
+
+                    while (left >= 0 && right < s.Length && s[left] == s[right])
                     {
-                        if (r - l > slen)
+                        if (right - left > p_length)
                         {
-                            spos = l;
-                            slen = r - l;
+                            p_index = left;
+                            p_length = right - left;
                         }
 
-                        r++;
-                        l--;
+                        right++;
+                        left--;
                     }
                 }
             }
 
-            return s.Substring(spos, slen + 1);
+            return s.Substring(p_index, p_length + 1);
         }
 
         public static string LongestPalindrome_BruteForce(string s)

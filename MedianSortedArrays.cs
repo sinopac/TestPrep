@@ -9,6 +9,7 @@ namespace MyTestPrep
         /// Input: nums1 = [1,3], nums2 = [2]
         /// Output: 2.00000
         /// Explanation: merged array = [1,2,3] and median is 2.
+        /// https://leetcode.com/problems/median-of-two-sorted-arrays/
         /// </summary>
         public static double FindMedianSortedArrays_1(int[] nums1, int[] nums2)
         {
@@ -28,6 +29,7 @@ namespace MyTestPrep
         /// Linq Union has better memory comsumption then Array concat and sort.
         /// Output: 2.00000
         /// Explanation: merged array = [1,2,3] and median is 2.
+        /// https://leetcode.com/problems/median-of-two-sorted-arrays/
         /// </summary>
         public static double FindMedianSortedArrays_2(int[] nums1, int[] nums2)
         {

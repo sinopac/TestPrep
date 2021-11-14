@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -309,10 +310,18 @@ namespace MyTestPrep
             return longestSubString;
         }
 
-        public static void Blocks(int[,] cells)
+        public static string[] AllCommonString(string left, string right)
         {
-            var block = new List<Tuple<int, int>>();
+            List<string> result = new List<string>();
+            string[] rightArray = right.Split();
+            string[] leftArray = left.Split();
 
+            result.AddRange(rightArray.Where(r => leftArray.Any(l => l.StartsWith(r))));
+
+            // must check other way in case left array contains smaller words than right array
+            result.AddRange(leftArray.Where(l => rightArray.Any(r => r.StartsWith(l))));
+
+            return result.Distinct().ToArray();
         }
 
         public static int StrStr(string haystack, string needle)
@@ -381,6 +390,131 @@ namespace MyTestPrep
             }
 
             return (char)newDec;
+        }
+
+        public static int CountBinarySubstrings(string s)
+        {
+            int ans = 0, prev = 0, cur = 1;
+
+            for (int i = 1; i < s.Length; i++)
+            {
+                var x = s[i - 1];
+                var y = s[i];
+
+                if (s[i - 1] != s[i])
+                {
+                    ans += Math.Min(prev, cur);
+                    prev = cur;
+                    cur = 1;
+                }
+                else
+                {
+                    cur++;
+                }
+            }
+
+            return ans + Math.Min(prev, cur);
+        }
+
+        public static string ReorganizeString(string s)
+        {
+            var charGroup = s.ToCharArray().GroupBy(x => x)
+                .OrderByDescending(grp => grp.Count())
+                .ToDictionary(gdc => gdc.Key, gdc => gdc.Count());
+
+            if (charGroup.First().Value - 1 > s.Length - charGroup.First().Value)
+                return "";
+
+            var result = new char[s.Length];
+            int index = 0;
+
+            foreach (var elem in charGroup)
+            {
+                int count = elem.Value;
+                while (count > 0)
+                {
+                    if (index >= result.Length)
+                        index = 1;
+
+                    result[index] = (char)elem.Key;
+                    index += 2;
+                    count--;
+                }
+            }
+
+            return new string(result);
+        }
+
+        private static void Helper(IList<IList<int>> res, int idx, int[] nums)
+        {
+            if (idx == nums.Length)
+            {
+                res.Add(nums.ToList());
+                return;
+            }
+
+            for (int i = idx; i < nums.Length; i++)
+            {
+                var tmp = nums[idx];
+                nums[idx] = nums[i];
+                nums[i] = tmp;
+
+                Helper(res, idx + 1, nums);
+
+                tmp = nums[idx];
+                nums[idx] = nums[i];
+                nums[i] = tmp;
+            }
+        }
+
+        public static IList<IList<int>> Permute(int[] nums)
+        {
+            IList<IList<int>> res = new List<IList<int>>();
+            Helper(res, 0, nums);
+
+            return res;
+        }
+
+        public static int LengthOfLIS(int[] nums)
+        {
+            int[] dp = new int[nums.Length];
+            Array.Fill(dp, 1);
+
+            for (int i = 1; i < nums.Length; i++)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    if (nums[i] > nums[j])
+                    {
+                        dp[i] = Math.Max(dp[i], dp[j] + 1);
+                    }
+                }
+            }
+
+            return dp.Max();
+        }
+
+        public static long CountVowels(string word)
+        {
+            //1 a ab aba - 4 : 3 + 0 + 1
+            //2    b  ba - 1 : 0 + 1
+            //3        a - 1 : 1
+            //total = (3) * 3 + (2) * 2 + (1)
+
+            List<char> vowels = new List<char> { 'a', 'e', 'i', 'o', 'u' };
+
+            long sum = 0;
+            long wordLength = word.Length;
+
+            for (int i = 0; i < wordLength; i++)
+            {
+                if (vowels.Contains(word[i]))
+                {
+                    sum += (i + 1) * (wordLength - i);
+                }
+            }
+
+            return sum;
         }
     }
 }
